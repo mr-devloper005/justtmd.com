@@ -19,9 +19,9 @@ export function EditableArticleArchive({ posts, pagination, category = 'all', ba
           <h1 className={`${dc.type.heroTitle} mt-5 max-w-5xl`}>{voice.headline}</h1>
           <p className="mt-6 max-w-3xl text-base leading-8 text-white/72 sm:text-lg">{voice.description}</p>
           <form action={basePath} className="mt-8 flex max-w-xl flex-col gap-3 sm:flex-row">
-            <select name="category" defaultValue={category || 'all'} className={`min-w-0 flex-1 rounded-full border ${pal.darkBorder} bg-white px-5 py-3 text-sm font-bold ${pal.panelText} outline-none`}>
-              <option value="all">All categories</option>
-              {CATEGORY_OPTIONS.map((item) => <option key={item.slug} value={item.slug}>{item.name}</option>)}
+            <select name="category" defaultValue={category || 'all'} className={`min-w-0 flex-1 rounded-full border ${pal.darkBorder} bg-white px-5 py-3 text-sm font-bold ${pal.panelText} outline-none`} style={{ color: '#082033', backgroundColor: '#ffffff' }}>
+              <option value="all" style={{ color: '#082033', backgroundColor: '#ffffff' }}>All categories</option>
+              {CATEGORY_OPTIONS.map((item) => <option key={item.slug} value={item.slug} style={{ color: '#082033', backgroundColor: '#ffffff' }}>{item.name}</option>)}
             </select>
             <button className={`rounded-full ${pal.accentSoftBg} px-6 py-3 text-sm font-black ${pal.panelText}`}>Filter</button>
           </form>
