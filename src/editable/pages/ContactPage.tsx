@@ -9,39 +9,15 @@ import { EditableSiteShell } from '@/editable/shell/EditableSiteShell'
 
 function getTone(kind: ReturnType<typeof getProductKind>) {
   if (kind === 'directory') {
-    return {
-      shell: 'bg-[#f8fbff] text-slate-950',
-      panel: 'border border-slate-200 bg-white',
-      soft: 'border border-slate-200 bg-slate-50',
-      muted: 'text-slate-600',
-      action: 'bg-slate-950 text-white hover:bg-slate-800',
-    }
+    return 'bg-[linear-gradient(180deg,#061826_0%,#0b2434_100%)]'
   }
   if (kind === 'editorial') {
-    return {
-      shell: 'bg-[#fbf6ee] text-[#241711]',
-      panel: 'border border-[#dcc8b7] bg-[#fffdfa]',
-      soft: 'border border-[#e6d6c8] bg-[#fff4e8]',
-      muted: 'text-[#6e5547]',
-      action: 'bg-[#241711] text-[#fff1e2] hover:bg-[#3a241b]',
-    }
+    return 'bg-[linear-gradient(180deg,#061826_0%,#0c3146_100%)]'
   }
   if (kind === 'visual') {
-    return {
-      shell: 'bg-[#07101f] text-white',
-      panel: 'border border-white/10 bg-white/6',
-      soft: 'border border-white/10 bg-white/5',
-      muted: 'text-slate-300',
-      action: 'bg-[#8df0c8] text-[#07111f] hover:bg-[#77dfb8]',
-    }
+    return 'bg-[linear-gradient(180deg,#04111a_0%,#0b2738_100%)]'
   }
-  return {
-    shell: 'bg-[#f7f1ea] text-[#261811]',
-    panel: 'border border-[#ddcdbd] bg-[#fffaf4]',
-    soft: 'border border-[#e8dbce] bg-[#f3e8db]',
-    muted: 'text-[#71574a]',
-    action: 'bg-[#5b2b3b] text-[#fff0f5] hover:bg-[#74364b]',
-  }
+  return 'bg-[linear-gradient(180deg,#061826_0%,#0a2434_100%)]'
 }
 
 export default function ContactPage() {
@@ -75,27 +51,30 @@ export default function ContactPage() {
             ]
 
   return (
-    <EditableSiteShell className={tone.shell}>
-      <main className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-        <section className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
+    <EditableSiteShell className={tone}>
+      <main className="bg-[var(--slot4-page-bg)] text-white">
+        <section className="mx-auto grid max-w-[1440px] gap-8 px-4 py-14 sm:px-6 lg:grid-cols-[0.95fr_1.05fr] lg:px-8 lg:py-20">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] opacity-70">{pagesContent.contact.eyebrow}</p>
-            <h1 className="mt-4 text-5xl font-semibold tracking-[-0.05em]">{pagesContent.contact.title}</h1>
-            <p className={`mt-5 max-w-2xl text-sm leading-8 ${tone.muted}`}>{pagesContent.contact.description}</p>
+            <p className="text-[11px] font-black uppercase tracking-[0.26em] text-[var(--slot4-accent)]">{pagesContent.contact.eyebrow}</p>
+            <h1 className="mt-4 max-w-3xl text-5xl font-semibold leading-[0.94] tracking-[-0.08em] sm:text-6xl">{pagesContent.contact.title}</h1>
+            <p className="mt-5 max-w-2xl text-base leading-8 text-white/72">{pagesContent.contact.description}</p>
             <div className="mt-8 space-y-4">
               {lanes.map((lane) => (
-                <div key={lane.title} className={`rounded-[1.6rem] p-5 ${tone.soft}`}>
-                  <lane.icon className="h-5 w-5" />
-                  <h2 className="mt-3 text-xl font-semibold">{lane.title}</h2>
-                  <p className={`mt-2 text-sm leading-7 ${tone.muted}`}>{lane.body}</p>
+                <div key={lane.title} className="rounded-[1.8rem] border border-white/12 bg-white/6 p-5">
+                  <lane.icon className="h-5 w-5 text-[var(--slot4-accent)]" />
+                  <h2 className="mt-3 text-xl font-semibold tracking-[-0.04em]">{lane.title}</h2>
+                  <p className="mt-2 text-sm leading-7 text-white/68">{lane.body}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className={`rounded-[2rem] p-7 ${tone.panel}`}>
-            <h2 className="text-2xl font-semibold">{pagesContent.contact.formTitle}</h2>
-            <EditableContactLeadForm />
+          <div className="rounded-[2.4rem] border border-white/12 bg-white/6 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.24)] sm:p-8">
+            <h2 className="text-2xl font-semibold tracking-[-0.05em]">{pagesContent.contact.formTitle}</h2>
+            <p className="mt-3 text-sm leading-7 text-white/65">Share what you need and the message will route through the contact workflow.</p>
+            <div className="mt-6">
+              <EditableContactLeadForm />
+            </div>
           </div>
         </section>
       </main>
