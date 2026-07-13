@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ArrowRight, Clock3, ExternalLink, FileText, Sparkles } from 'lucide-react'
+import { ArrowRight, Clock3, ExternalLink } from 'lucide-react'
 import type { SitePost } from '@/lib/site-connector'
 import type { TaskKey } from '@/lib/site-config'
 import { editableDesignContract as dc, editablePalette as pal } from '@/editable/layouts/design-contract'
@@ -55,7 +55,7 @@ export function EditorialFeatureCard({ post, href }: { post: SitePost; href: str
   )
 }
 
-export function RailPostCard({ post, href, index }: { post: SitePost; href: string; index: number }) {
+export function RailPostCard({ post, href }: { post: SitePost; href: string; index: number }) {
   return (
     <Link href={href} className={`group block ${dc.layout.minRailCard} overflow-hidden ${dc.surface.card} ${dc.motion.lift}`}>
       <div className={`${dc.media.frame} aspect-[4/5]`}>

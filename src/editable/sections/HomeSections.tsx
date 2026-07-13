@@ -8,7 +8,6 @@ import { pagesContent } from '@/editable/content/pages.content'
 import { editableDesignContract as dc } from '@/editable/layouts/design-contract'
 import { TaskPostCard } from '@/components/shared/task-post-card'
 import {
-  ArticleListCard,
   CompactIndexCard,
   EditorialFeatureCard,
   ImageFirstCard,
@@ -33,20 +32,6 @@ function taskLabel(task: TaskKey) {
 
 function pickHeadline(primaryTask: TaskKey) {
   return pagesContent.home.hero.title.join(' ') || `Browse ${taskLabel(primaryTask)} with a premium rhythm.`
-}
-
-function HeroCard({ post, href }: { post: SitePost; href: string }) {
-  return (
-    <Link href={href} className="group grid overflow-hidden rounded-[2rem] border border-white/12 bg-white/7 transition duration-300 hover:-translate-y-1 hover:bg-white/10 hover:shadow-[0_24px_70px_rgba(0,0,0,0.24)] md:grid-cols-[0.88fr_1.12fr]">
-      <div className="relative min-h-[240px] bg-[var(--slot4-media-bg)]">
-        <img src={getEditablePostImage(post)} alt={post.title} className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105" />
-      </div>
-      <div className="p-6">
-        <h3 className="mt-3 line-clamp-3 text-2xl font-semibold leading-tight tracking-[-0.05em] text-white">{post.title}</h3>
-        <p className="mt-4 line-clamp-4 text-sm leading-7 text-white/65">{getEditableExcerpt(post, 140)}</p>
-      </div>
-    </Link>
-  )
 }
 
 function FeatureStack({ posts, hrefs }: { posts: SitePost[]; hrefs: string[] }) {
@@ -164,7 +149,7 @@ export function EditableStoryRail({ primaryTask, primaryRoute, posts }: HomeSect
   )
 }
 
-export function EditableMagazineSplit({ primaryTask, primaryRoute, posts, quickReadPosts = [] }: HomeSectionProps) {
+export function EditableMagazineSplit({ primaryRoute, posts, quickReadPosts = [] }: HomeSectionProps) {
   if (!posts.length) return null
   const quickReads = quickReadPosts.slice(0, 4)
   const sbmRoute = SITE_CONFIG.taskViews.sbm || '/sbm'
