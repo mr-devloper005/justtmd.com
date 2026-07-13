@@ -6,8 +6,10 @@ import { buildPostMetadata, buildTaskMetadata } from '@/lib/seo'
 import { buildPostUrl, fetchArticleComments, fetchTaskPostBySlug, fetchTaskPosts } from '@/lib/task-data'
 import { getTaskConfig, SITE_CONFIG, type TaskKey } from '@/lib/site-config'
 import type { SitePost } from '@/lib/site-connector'
+import { Ads } from '@/lib/ads'
 import { EditableSiteShell } from '@/editable/shell/EditableSiteShell'
 import { DetailMetaChip, FigureCard, ImageFirstCard, BookmarkCard, ArticleListCard } from '@/editable/cards/PostCards'
+import { editableDesignContract as dc } from '@/editable/layouts/design-contract'
 
 export const revalidate = 3
 
@@ -114,14 +116,20 @@ export function TaskDetailView({ task, post, related, comments = [] }: { task: T
 
   return (
     <EditableSiteShell>
-      <main style={detailVars} className="bg-[var(--slot4-page-bg)] text-white">
-        {task === 'listing' ? <ListingDetail post={post} related={related} /> : null}
-        {task === 'classified' ? <ClassifiedDetail post={post} related={related} /> : null}
-        {task === 'image' ? <ImageDetail post={post} related={related} /> : null}
-        {task === 'sbm' ? <BookmarkDetail post={post} /> : null}
-        {task === 'pdf' ? <PdfDetail post={post} related={related} /> : null}
-        {task === 'profile' ? <ProfileDetail post={post} related={related} /> : null}
-        {task === 'article' ? <ArticleDetail post={post} related={related} comments={comments} /> : null}
+      <main style={detailVars} className="relative overflow-hidden bg-[var(--slot4-body-gradient)] text-white">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-[38rem] bg-[radial-gradient(circle_at_12%_0%,rgba(111,209,215,0.16),transparent_34%),radial-gradient(circle_at_88%_12%,rgba(93,248,216,0.1),transparent_28%)]" />
+        <div className="relative">
+          {task === 'listing' ? <ListingDetail post={post} related={related} /> : null}
+          {task === 'classified' ? <ClassifiedDetail post={post} related={related} /> : null}
+          {task === 'image' ? <ImageDetail post={post} related={related} /> : null}
+          {task === 'sbm' ? <BookmarkDetail post={post} /> : null}
+          {task === 'pdf' ? <PdfDetail post={post} related={related} /> : null}
+          {task === 'profile' ? <ProfileDetail post={post} related={related} /> : null}
+          {task === 'article' ? <ArticleDetail post={post} related={related} comments={comments} /> : null}
+          <div className="mx-auto max-w-6xl px-4 py-6">
+            <Ads slot="article-bottom" showLabel eager className="mx-auto w-full" />
+          </div>
+        </div>
       </main>
     </EditableSiteShell>
   )
@@ -130,7 +138,7 @@ export function TaskDetailView({ task, post, related, comments = [] }: { task: T
 function BackLink({ task }: { task: TaskKey }) {
   const taskConfig = getTaskConfig(task)
   return (
-    <Link href={taskConfig?.route || '/'} className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/6 px-4 py-2 text-sm font-black text-white transition hover:bg-white/10">
+    <Link href={taskConfig?.route || '/'} className={`${dc.button.secondary} px-4 py-2`}>
       <ArrowLeft className="h-4 w-4" />
       Back to {taskConfig?.label || 'posts'}
     </Link>
@@ -141,7 +149,7 @@ function ArticleDetail({ post, related, comments }: { post: SitePost; related: S
   const images = getImages(post)
   const heroImage = images[0]
   return (
-    <section className="mx-auto grid max-w-[1440px] gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:px-8 lg:py-16">
+    <section className="mx-auto grid max-w-[1440px] gap-8 px-4 py-14 sm:px-6 sm:py-16 lg:grid-cols-[minmax(0,1fr)_360px] lg:px-8 lg:py-20">
       <article className="min-w-0 rounded-[2.6rem] border border-white/12 bg-white/6 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.24)] sm:p-8 lg:p-12">
         <BackLink task="article" />
         <p className="mt-8 text-[11px] font-black uppercase tracking-[0.28em] text-[var(--detail-accent)]">{categoryOf(post, 'Article')}</p>
@@ -165,7 +173,7 @@ function ListingDetail({ post, related }: { post: SitePost; related: SitePost[] 
   const website = getField(post, ['website', 'url'])
   const mapSrc = mapSrcFor(post)
   return (
-    <section className="mx-auto max-w-[1440px] px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
+    <section className="mx-auto max-w-[1440px] px-4 py-14 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
       <BackLink task="listing" />
       <div className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
         <article className="rounded-[2.7rem] border border-white/12 bg-white/6 p-6 shadow-[0_24px_80px_rgba(0,0,0,0.24)] sm:p-9">
@@ -207,7 +215,7 @@ function ClassifiedDetail({ post, related }: { post: SitePost; related: SitePost
   const email = getField(post, ['email'])
   const website = getField(post, ['website', 'url'])
   return (
-    <section className="mx-auto grid max-w-[1440px] gap-7 px-4 py-10 sm:px-6 lg:grid-cols-[0.88fr_1.12fr] lg:px-8 lg:py-16">
+    <section className="mx-auto grid max-w-[1440px] gap-7 px-4 py-14 sm:px-6 sm:py-16 lg:grid-cols-[0.88fr_1.12fr] lg:px-8 lg:py-20">
       <aside className="rounded-[2.5rem] border border-white/12 bg-[linear-gradient(135deg,rgba(9,60,93,0.96),rgba(59,117,151,0.9))] p-7 text-white shadow-[0_24px_80px_rgba(0,0,0,0.24)] lg:sticky lg:top-24 lg:self-start">
         <BackLink task="classified" />
         <p className="mt-10 text-[11px] font-black uppercase tracking-[0.28em] text-white/55">Classified notice</p>
@@ -235,7 +243,7 @@ function ClassifiedDetail({ post, related }: { post: SitePost; related: SitePost
 function ImageDetail({ post, related }: { post: SitePost; related: SitePost[] }) {
   const images = getImages(post)
   return (
-    <section className="mx-auto max-w-[1440px] px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
+    <section className="mx-auto max-w-[1440px] px-4 py-14 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
       <BackLink task="image" />
       <div className="mt-8 grid gap-8 lg:grid-cols-[0.72fr_1.28fr]">
         <aside className="rounded-[2.5rem] border border-white/12 bg-white/6 p-7 shadow-[0_24px_80px_rgba(0,0,0,0.24)] lg:sticky lg:top-24 lg:self-start">
@@ -264,7 +272,7 @@ function ImageDetail({ post, related }: { post: SitePost; related: SitePost[] })
 function BookmarkDetail({ post }: { post: SitePost }) {
   const category = categoryOf(post, 'Bookmark')
   return (
-    <section className="relative mx-auto max-w-[1120px] px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
+    <section className="relative mx-auto max-w-[1120px] px-4 py-14 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
       <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[320px] bg-[radial-gradient(circle_at_top_left,rgba(111,209,215,0.12),transparent_28%),radial-gradient(circle_at_80%_10%,rgba(59,117,151,0.14),transparent_24%),linear-gradient(180deg,rgba(255,255,255,0.02),transparent)]" />
       <BackLink task="sbm" />
       <div className="mt-8 rounded-[2.8rem] border border-white/12 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.05))] p-6 shadow-[0_24px_80px_rgba(0,0,0,0.24)] sm:p-8 lg:p-10">
@@ -290,7 +298,7 @@ function BookmarkDetail({ post }: { post: SitePost }) {
 function PdfDetail({ post, related }: { post: SitePost; related: SitePost[] }) {
   const fileUrl = getField(post, ['fileUrl', 'pdfUrl', 'documentUrl', 'url'])
   return (
-    <section className="mx-auto grid max-w-[1440px] gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:px-8 lg:py-16">
+    <section className="mx-auto grid max-w-[1440px] gap-8 px-4 py-14 sm:px-6 sm:py-16 lg:grid-cols-[minmax(0,1fr)_360px] lg:px-8 lg:py-20">
       <article className="rounded-[2.7rem] border border-white/12 bg-white/6 p-6 shadow-[0_24px_80px_rgba(0,0,0,0.24)] sm:p-9">
         <BackLink task="pdf" />
         <div className="mt-8 grid gap-6 sm:grid-cols-[120px_1fr]">
@@ -324,7 +332,7 @@ function ProfileDetail({ post, related }: { post: SitePost; related: SitePost[] 
   const website = getField(post, ['website', 'url'])
   const email = getField(post, ['email'])
   return (
-    <section className="mx-auto grid max-w-[1440px] gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[420px_minmax(0,1fr)] lg:px-8 lg:py-16">
+    <section className="mx-auto grid max-w-[1440px] gap-8 px-4 py-14 sm:px-6 sm:py-16 lg:grid-cols-[420px_minmax(0,1fr)] lg:px-8 lg:py-20">
       <aside className="rounded-[2.7rem] border border-white/12 bg-white/6 p-8 text-center shadow-[0_24px_80px_rgba(0,0,0,0.24)] lg:sticky lg:top-24 lg:self-start">
         <BackLink task="profile" />
         <div className="mx-auto mt-10 flex h-40 w-40 items-center justify-center overflow-hidden rounded-full border border-white/12 bg-white/8">
@@ -432,7 +440,7 @@ function RelatedCard({ task, post }: { task: TaskKey; post: SitePost }) {
     return <FigureCard post={post} href={href} />
   }
   return (
-    <Link href={href} className="group flex gap-3 rounded-2xl border border-white/12 bg-white/6 p-3 transition hover:-translate-y-0.5 hover:bg-white/10">
+    <Link href={href} className={`group flex gap-3 rounded-2xl border border-white/12 bg-white/6 p-3 hover:bg-white/10 ${dc.motion.lift}`}>
       {image ? <img src={image} alt="" className="h-20 w-20 shrink-0 rounded-xl object-cover" /> : <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-xl bg-white/8"><FileText className="h-6 w-6 text-white/45" /></div>}
       <div className="min-w-0">
         <h3 className="line-clamp-3 text-sm font-black leading-tight tracking-[-0.03em] text-white">{post.title}</h3>

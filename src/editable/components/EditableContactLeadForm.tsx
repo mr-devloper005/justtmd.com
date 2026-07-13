@@ -41,11 +41,11 @@ export function EditableContactLeadForm() {
       </div>
       <div className="mt-4 grid gap-4 md:grid-cols-2">
         <Field name="phone" label="Phone number" placeholder="Optional" />
-        <Field name="subject" label="Subject" placeholder="How can we help?" />
+        <Field name="subject" label="Subject" placeholder="Bookmark suggestion or link issue" />
       </div>
       <label className="mt-4 grid gap-2 text-sm font-black text-white/78">
         Message
-        <textarea name="message" required rows={6} placeholder="Tell us what you need help with..." className="rounded-2xl border border-white/12 bg-white/8 px-4 py-3 text-base font-medium text-white outline-none transition placeholder:text-white/35 focus:border-[var(--slot4-accent)]" />
+        <textarea name="message" required rows={6} placeholder="Include the bookmark URL and tell us what you would like us to review..." className="rounded-2xl border border-white/12 bg-white/8 px-4 py-3 text-base font-medium text-white outline-none transition placeholder:text-white/35 focus:border-[var(--slot4-accent)]" />
       </label>
       <input name="company" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
       {message ? (
@@ -56,7 +56,7 @@ export function EditableContactLeadForm() {
       ) : null}
       <button type="submit" disabled={status === 'submitting'} className="mt-6 inline-flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-[linear-gradient(135deg,#6fd1d7,#5df8d8)] px-6 text-sm font-black uppercase tracking-[0.24em] text-[#082033] shadow-lg transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-70">
         {status === 'submitting' ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-        Send message
+        Send to curators
       </button>
     </form>
   )

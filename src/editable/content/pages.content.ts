@@ -52,33 +52,48 @@ export const pagesContent = {
     },
   },
   about: {
-    badge: 'Our story',
-    title: 'A calmer, more premium way to browse useful content.',
-    description: `${slot4BrandConfig.siteName} is built to make bookmarks, posts, and supporting resources feel connected and easy to explore.`,
+    badge: 'Curated with care',
+    title: 'About',
+    description: `${slot4BrandConfig.siteName} is a social bookmarking destination for discovering, saving, and sharing useful links from around the web.`,
     paragraphs: [
-      'Instead of splitting everything into disconnected pages, the site keeps related content easy to move through and easy to understand.',
-      'Whether someone starts with a bookmark, article, listing, image post, or resource page, they can keep exploring without losing context.',
+      'We organize quality websites, tools, guides, and references into clear collections so useful resources are easier to find when you need them.',
+      'Every bookmark includes helpful context and category details, giving visitors a faster way to explore trusted resources without searching through clutter.',
     ],
     values: [
       {
-        title: 'Premium pacing',
-        description: 'We prioritize clarity, spacing, and structure so people can browse without noise.',
+        title: 'Useful discoveries',
+        description: 'We focus on practical, relevant bookmarks that help people learn, work, and explore.',
       },
       {
-        title: 'Connected surfaces',
-        description: 'Articles, visuals, listings, resources, profiles, and bookmarks stay connected across the site.',
+        title: 'Thoughtful collections',
+        description: 'Bookmarks are grouped by topic so visitors can move quickly from one useful resource to the next.',
       },
       {
-        title: 'Simple and trustworthy',
-        description: 'We keep navigation clean and page structure clear so visitors can find useful content faster.',
+        title: 'Community sharing',
+        description: 'Members can share worthwhile links and help the collection stay fresh, relevant, and diverse.',
       },
     ],
   },
   contact: {
     eyebrow: `Contact ${slot4BrandConfig.siteName}`,
-    title: 'A support page that feels like part of the site.',
-    description: 'Tell us what you are trying to publish, update, or improve. We will route it through the right lane instead of forcing every request into one bucket.',
-    formTitle: 'Send a message',
+    title: 'Help us keep every bookmark useful.',
+    description: 'Suggest a valuable resource, report a broken or outdated link, or contact us about a social-bookmarking partnership.',
+    formTitle: 'Contact our curation team',
+    formDescription: 'Tell us about the bookmark or collection, and include the relevant URL whenever possible.',
+    lanes: [
+      {
+        title: 'Suggest a bookmark',
+        body: 'Share a useful website, tool, guide, or reference you would like our curators to review.',
+      },
+      {
+        title: 'Report a link',
+        body: 'Let us know when a bookmark is broken, outdated, misleading, or listed in the wrong collection.',
+      },
+      {
+        title: 'Curation partnerships',
+        body: 'Talk with us about themed collections, resource partnerships, and community curation projects.',
+      },
+    ],
   },
 
   search: {

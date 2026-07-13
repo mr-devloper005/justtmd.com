@@ -3,10 +3,8 @@
 import { useMemo, useState, type CSSProperties } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { ArrowRight, LogIn, Menu, Search, X, UserPlus, PlusCircle } from 'lucide-react'
+import { LogIn, Menu, Search, X, UserPlus } from 'lucide-react'
 import { SITE_CONFIG } from '@/lib/site-config'
-import { globalContent } from '@/editable/content/global.content'
-import { useEditableLocalAuthSession } from '@/editable/components/EditableLocalAuthForms'
 
 const rootVars: CSSProperties = {
   '--editable-nav-bg': 'rgba(4, 17, 26, 0.72)',
@@ -27,20 +25,22 @@ function isActive(pathname: string, href: string) {
 
 export function EditableNavbar() {
   const pathname = usePathname()
-  const { session, logout } = useEditableLocalAuthSession()
   const [open, setOpen] = useState(false)
   const navItems = useMemo(
     () => [
       { label: 'Home', href: '/' },
-      { label: 'Browse', href: '/sbm' },
-      { label: 'About', href: '/about' },
-      { label: 'Contact', href: '/contact' },
+      { label: 'Bookmark', href: '/sbm' },
     ],
     []
   )
-  const taskItems = useMemo(
-    () => SITE_CONFIG.tasks.filter((task) => task.enabled).map((task) => ({ label: task.label, href: task.route })),
-    []
+  const mobileItems = useMemo(
+    () => [
+      ...navItems,
+      { label: 'Search', href: '/search' },
+      { label: 'Login', href: '/login' },
+      { label: 'Register', href: '/signup' },
+    ],
+    [navItems]
   )
 
   return (
@@ -51,7 +51,6 @@ export function EditableNavbar() {
             <img src="/favicon.png?v=20260413" alt={SITE_CONFIG.name} className="h-9 w-9 object-contain" />
             <span className="leading-tight">
               <span className="block text-lg font-black tracking-[-0.05em]">{SITE_CONFIG.name}</span>
-              <span className="block text-[10px] font-bold uppercase tracking-[0.28em] text-white/55">{globalContent.nav?.tagline || SITE_CONFIG.tagline}</span>
             </span>
           </Link>
 
@@ -77,29 +76,14 @@ export function EditableNavbar() {
           </nav>
 
           <div className="ml-auto hidden items-center gap-2 md:flex">
-            {session ? (
-              <>
-                <Link href="/create" className="inline-flex items-center gap-2 rounded-full bg-[var(--editable-nav-cta)] px-4 py-2.5 text-sm font-black text-[var(--editable-nav-cta-text)] transition hover:-translate-y-0.5">
-                  <PlusCircle className="h-4 w-4" />
-                  Create
-                </Link>
-                <button type="button" onClick={logout} className="inline-flex items-center gap-2 rounded-full border border-[var(--editable-nav-border)] bg-white/5 px-4 py-2.5 text-sm font-black text-white/82 transition hover:bg-white/10">
-                  <ArrowRight className="h-4 w-4" />
-                  Logout
-                </button>
-              </>
-            ) : (
-              <>
-                <Link href="/login" className="inline-flex items-center gap-2 rounded-full border border-[var(--editable-nav-border)] bg-white/5 px-4 py-2.5 text-sm font-black text-white/82 transition hover:bg-white/10">
-                  <LogIn className="h-4 w-4" />
-                  Member login
-                </Link>
-                <Link href="/signup" className="inline-flex items-center gap-2 rounded-full bg-[var(--editable-nav-cta)] px-4 py-2.5 text-sm font-black text-[var(--editable-nav-cta-text)] transition hover:-translate-y-0.5">
-                  <UserPlus className="h-4 w-4" />
-                  Sign up
-                </Link>
-              </>
-            )}
+            <Link href="/login" className="inline-flex items-center gap-2 rounded-full border border-[var(--editable-nav-border)] bg-white/5 px-4 py-2.5 text-sm font-black text-white/82 transition hover:bg-white/10">
+              <LogIn className="h-4 w-4" />
+              Login
+            </Link>
+            <Link href="/signup" className="inline-flex items-center gap-2 rounded-full bg-[var(--editable-nav-cta)] px-4 py-2.5 text-sm font-black text-[var(--editable-nav-cta-text)] transition hover:-translate-y-0.5">
+              <UserPlus className="h-4 w-4" />
+              Register
+            </Link>
           </div>
 
           <button
@@ -116,15 +100,8 @@ export function EditableNavbar() {
 
       {open ? (
         <div className="border-t border-[var(--editable-nav-border)] bg-[rgba(4,17,26,0.95)] px-4 py-4 shadow-[0_20px_70px_rgba(0,0,0,0.32)] md:hidden">
-          <form action="/search" className="rounded-[1.35rem] border border-[var(--editable-nav-border)] bg-white/6 px-4 py-3">
-            <label className="flex items-center gap-3">
-              <Search className="h-4 w-4 text-white/55" />
-              <input name="q" type="search" placeholder="Search posts, topics, and pages" className="min-w-0 flex-1 bg-transparent text-sm font-bold outline-none placeholder:text-white/35" />
-            </label>
-          </form>
-
-          <div className="mt-4 grid gap-2">
-            {[...navItems, { label: 'Create', href: '/create' }, ...taskItems].map((item) => (
+          <div className="grid gap-2">
+            {mobileItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}

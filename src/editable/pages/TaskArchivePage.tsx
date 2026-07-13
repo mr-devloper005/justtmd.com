@@ -1,9 +1,9 @@
 import Link from 'next/link'
 import type { CSSProperties } from 'react'
-import { ArrowRight, Bookmark, Building2, Camera, FileText, Filter, Image as ImageIcon, LayoutGrid, MapPin, Megaphone, Search, Sparkles, UserRound } from 'lucide-react'
+import { ArrowRight, Bookmark, Building2, Camera, FileText, Filter, LayoutGrid, Megaphone, Search, UserRound } from 'lucide-react'
 import { buildTaskMetadata } from '@/lib/seo'
 import { CATEGORY_OPTIONS, normalizeCategory } from '@/lib/categories'
-import { fetchPaginatedTaskPosts, buildPostUrl } from '@/lib/task-data'
+import { fetchPaginatedTaskPosts } from '@/lib/task-data'
 import { getTaskConfig, SITE_CONFIG, type TaskKey } from '@/lib/site-config'
 import type { SiteFeedPagination, SitePost } from '@/lib/site-connector'
 import { taskPageMetadata } from '@/config/site.content'
@@ -21,33 +21,12 @@ export const taskMetadata = (task: TaskKey, path: string) =>
     description: taskPageMetadata[task]?.description,
   })
 
-const getContent = (post: SitePost) => post.content && typeof post.content === 'object' ? post.content as Record<string, unknown> : {}
-const asText = (value: unknown) => typeof value === 'string' ? value.trim() : ''
-
 function pageHref(basePath: string, category: string, page: number) {
   const params = new URLSearchParams()
   if (category && category !== 'all') params.set('category', category)
   if (page > 1) params.set('page', String(page))
   const query = params.toString()
   return query ? `${basePath}?${query}` : basePath
-}
-
-function getPostSummary(post: SitePost) {
-  const content = getContent(post)
-  return post.summary || asText(content.description) || asText(content.excerpt) || asText(content.body) || ''
-}
-
-function getPostCategory(post: SitePost, fallback: string) {
-  const content = getContent(post)
-  return asText(content.category) || post.tags?.[0] || fallback
-}
-
-function getPostImage(post: SitePost) {
-  const content = getContent(post)
-  const media = Array.isArray(post.media) ? post.media.find((item) => typeof item?.url === 'string' && item.url)?.url : ''
-  const image = asText(content.image) || asText(content.featuredImage) || asText(content.thumbnail) || asText(content.logo)
-  const images = Array.isArray(content.images) ? content.images.find((item): item is string => typeof item === 'string' && Boolean(item)) : ''
-  return media || image || images || '/placeholder.svg?height=900&width=1200'
 }
 
 const taskAccent: Record<TaskKey, { icon: typeof FileText; label: string; note: string; color: string }> = {
